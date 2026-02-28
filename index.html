@@ -1,0 +1,196 @@
+<title>Skid Row Joe's Hope Hub - Community-Driven Social Services Platform</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/provider.css">
+</head>
+
+<body>
+  <header>
+    <div id="provider-access" style="position: absolute; top: 10px; right: 20px; text-align: right;">
+      <span
+        style="display: block; margin-bottom: 5px; color: #fff; font-weight: bold; font-size: 0.9rem; text-shadow: 0 0 4px var(--primary-color);">Service
+        Providers</span>
+      <button class="provider-btn" onclick="providerAction('register')">Register Service</button>
+      <button class="provider-btn" onclick="providerAction('checkin')">Provider Check-In</button>
+    </div>
+    <h1>The Skid Row Joe National Resource Bank</h1>
+    <p>Empowering Lives, Restoring Hope, Building Communities</p>
+    <p>Created by Concerned Americans for Concerned Americans</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#resource-locator">Resource Locator</a></li>
+      <li><a href="#emergency-assistance">Emergency Help</a></li>
+      <li><a href="#job-board">Job Board</a></li>
+      <li><a href="#housing-navigator">Housing</a></li>
+      <li><a href="#telehealth">Telehealth</a></li>
+      <li><a href="#peer-support">Support Forum</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#legal-aid">Legal Aid</a></li>
+      <li><a href="#recovery-tracker">Recovery Tracker</a></li>
+      <li><a href="#reentry-programs">Reentry Programs</a></li>
+      <li><a href="#volunteer">Volunteer</a></li>
+      <li><a href="#alternative-support">Alternative Support Groups</a></li>
+      <li><a href="michelle.html">Chat with Michelle</a></li>
+    </ul>
+
+    <div class="ai-staff-box"
+      style="background-color: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 20px; display: flex; align-items: center; box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); margin-top: 20px;">
+      <img src="./assets/images/michelle.png" alt="AI staff member Michelle, a friendly professional woman" width="150"
+        height="150" style="border-radius: 50%; margin-right: 20px;">
+      <div>
+        <h3 style="color: var(--primary-color); margin-bottom: 10px;">Meet Our Onsite AI Staff Member Michelle</h3>
+        <p style="margin-bottom: 15px;">Michelle is an AI-driven avatar that can assist those not knowledgeable in using
+          computers. She's here to help you navigate our resources with ease.</p>
+        <a href="michelle.html" class="btn"
+          style="display: inline-block; padding: 10px 20px; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); color: var(--bg-color); text-decoration: none; border-radius: 25px; transition: all 0.3s ease;">Chat
+          with Michelle</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-content">
+      <h2>Your Journey to Hope Starts Here</h2>
+      <p>Comprehensive support for addiction, homelessness, mental health, and Inmate Resource Guides.</p>
+      <img src="./assets/images/volunteers_hero.png"
+        alt="Volunteers helping those in need, showing compassion and support" width="800" height="400"
+        style="max-width: 100%; height: auto; border-radius: 10px; margin-top: 20px; box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);">
+    </div>
+  </div>
+
+  <div class="container">
+    <form id="zipCodeForm">
+      <input type="text" id="zipCode" placeholder="Enter your ZIP code" required="">
+      <button type="submit" id="submitZip">Find Local Services</button>
+    </form>
+
+    <div class="card-container">
+      <div class="card">
+        <img src="./assets/images/card_resource.png"
+          alt="Hands reaching out to help each other, symbolizing resource locator services" width="400" height="300">
+        <h3>Resource Locator</h3>
+        <a href="housing/index.html" class="resource-btn" data-service="resource-locator">Find Services</a>
+      </div>
+      <div class="card">
+        <img src="./assets/images/card_emergency.png"
+          alt="A group of people rushing to help someone in need, representing emergency assistance" width="400"
+          height="300">
+        <h3>Emergency Assistance</h3>
+        <a href="dashboard/index.html" class="resource-btn" data-service="emergency-assistance">Get Help Now</a>
+      </div>
+      <div class="card">
+        <img src="./assets/images/card_job.png"
+          alt="A person shaking hands with another in a job interview setting, symbolizing job opportunities"
+          width="400" height="300">
+        <h3>Job Opportunities</h3>
+        <a href="#" class="resource-btn" data-service="job-board">Find Work</a>
+      </div>
+      <div class="card">
+        <img src="./assets/images/card_housing.png"
+          alt="A person handing keys to another, representing housing assistance" width="400" height="300">
+        <h3>Housing Navigator</h3>
+        <a href="housing/index.html" class="resource-btn" data-service="housing-navigator">Find Housing</a>
+      </div>
+      <div class="card">
+        <img src="./assets/images/card_emergency.png"
+          alt="A doctor consulting with a patient via video call, illustrating telehealth services" width="400"
+          height="300">
+        <h3>Telehealth Services</h3>
+        <a href="#" class="resource-btn" data-service="telehealth">Book Appointment</a>
+      </div>
+      <div class="card">
+        <img src="./assets/images/volunteers_hero.png"
+          alt="A diverse group of people in a circle, supporting each other, symbolizing peer support" width="400"
+          height="300">
+        <h3>Peer Support Forum</h3>
+        <a href="support/index.html" class="resource-btn" data-service="peer-support">Join Community</a>
+      </div>
+      <div class="card">
+        <img src="./assets/images/card_job.png"
+          alt="A mentor teaching a group of diverse students, representing educational resources" width="400"
+          height="300">
+        <h3>Education Center</h3>
+        <a href="#" class="resource-btn" data-service="education">Start Learning</a>
+      </div>
+      <div class="card">
+        <img src="./assets/images/card_job.png"
+          alt="A lawyer providing counsel to a client, symbolizing legal aid services" width="400" height="300">
+        <h3>Legal Aid Directory</h3>
+        <a href="#" class="resource-btn" data-service="legal-aid">Get Legal Help</a>
+      </div>
+      <div class="card">
+        <img src="./assets/images/card_resource.png"
+          alt="A person celebrating a milestone in recovery, representing progress tracking" width="400" height="300">
+        <h3>Recovery Tracker</h3>
+        <a href="recovery/index.html" class="resource-btn" data-service="recovery-tracker">Track Progress</a>
+      </div>
+      <div class="card">
+        <img src="./assets/images/card_housing.png"
+          alt="A group welcoming a person back into the community, symbolizing reentry programs" width="400"
+          height="300">
+        <h3>Reentry Programs</h3>
+        <a href="#" class="resource-btn" data-service="reentry-programs">Find Support</a>
+      </div>
+    </div>
+
+    <div class="mission">
+      <h2>Our Mission</h2>
+      <p>Skid Row Joe's Hope Hub is dedicated to providing comprehensive, compassionate support to individuals facing
+        addiction, homelessness, mental health challenges, and reintegration issues. We believe in empowering
+        individuals through accessible resources, community support, and holistic care.</p>
+      <a href="#about" class="btn">Learn More About Us</a>
+    </div>
+
+    <div class="volunteer-section" id="volunteer">
+      <h2>Volunteer or Find a Volunteer</h2>
+      <div class="volunteer-categories" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <div class="volunteer-box"
+          style="width: 48%; padding: 20px; background-color: rgba(0, 255, 255, 0.1); border-radius: 10px;">
+          <h3 style="color: var(--primary-color);">Seeking Volunteers</h3>
+          <p>Join our community and make a difference in someone's life.</p>
+        </div>
+        <div class="volunteer-box"
+          style="width: 48%; padding: 20px; background-color: rgba(255, 0, 255, 0.1); border-radius: 10px;">
+          <h3 style="color: var(--secondary-color);">Volunteers Needed</h3>
+          <p>Find local opportunities to contribute your skills and time.</p>
+        </div>
+      </div>
+      <p>We believe in the power of community and compassion. By volunteering, you can make a real difference in your
+        local area. Whether you have an hour to spare or want to commit to a long-term project, there's an opportunity
+        for you. Choose based on your availability, special skills, or even contribute through financial or material
+        donations. Every act of kindness, no matter how small, can change someone's world. Join us in building a
+        stronger, more supportive community – right where you live.</p>
+      <form id="volunteerForm">
+        <input type="text" id="volunteerZipCode" placeholder="Enter ZIP code to volunteer/find volunteers" required="">
+        <button type="submit" id="submitVolunteerZip">Search</button>
+      </form>
+    </div>
+
+    <div class="feedback-section">
+      <h2>Share Your Thoughts</h2>
+      <p>We value your input. Share suggestions, ideas, alerts, or testimonies to help us improve and grow.</p>
+      <form id="feedbackForm">
+        <select id="feedbackType" required="">
+          <option value="">Select feedback type</option>
+          <option value="suggestion">Suggestion</option>
+          <option value="idea">Idea</option>
+          <option value="alert">Alert</option>
+          <option value="testimony">Testimony</option>
+        </select>
+        <textarea id="feedbackText" placeholder="Enter your feedback here" required=""></textarea>
+        <button type="submit" id="submitFeedback">Submit Feedback</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2023 Skid Row Joe's Hope Hub. All rights reserved.</p>
+    <p>24/7 Crisis Hotline: (800) 555-HOPE</p>
+  </footer>
+
+  <script src="./assets/js/main.js"></script>
+</body>
+
+</html>

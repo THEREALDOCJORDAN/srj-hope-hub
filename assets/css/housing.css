@@ -1,0 +1,32 @@
+.housing-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 2rem;
+}
+
+.housing-option {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.housing-option:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 255, 255, 0.3);
+}
+
+.housing-option h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+}
+
+#housingMap {
+    width: 100%;
+    height: 400px;
+    margin-top: 2rem;
+    border-radius: 15px;
+    overflow: hidden;
+}

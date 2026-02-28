@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat with Michelle — SRJ Hope Hub AI Assistant</title>
+  <meta name="description"
+    content="Talk to Michelle, the AI assistant for Skid Row Joe's Hope Hub. She can help you find housing, food, healthcare, legal aid, and recovery resources." />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo+2:wght@300;400;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #00ffff;
+      --secondary: #ff00ff;
+      --bg: #0a0a1f;
+      --card: rgba(255, 255, 255, 0.07);
+      --text: #ffffff;
+      --muted: #a0aabf;
+      --michelle: #00e5ff;
+      --user: #bf00ff;
+      --danger: #ff4d6d;
+      --success: #00ffaa;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Exo 2', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(circle at 15% 25%, rgba(0, 255, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(255, 0, 255, 0.08) 0%, transparent 40%);
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      background: linear-gradient(135deg, rgba(0, 255, 255, 0.15), rgba(255, 0, 255, 0.1));
+      border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      backdrop-filter: blur(12px);
+    }
+
+    .back-btn {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+    }
+
+    .back-btn:hover {
+      opacity: 0.7;
+    }
+
+    .site-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      color: var(--primary);
+      opacity: 0.8;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .chat-layout {
+      display: flex;
+      height: calc(100vh - 57px);
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      background: rgba(0, 0, 0, 0.3);
+      border-right: 1px solid rgba(0, 255, 255, 0.12);
+      backdrop-filter: blur(20px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 20px;
+      gap: 18px;
+      overflow-y: auto;
+    }
+
+    /* ── AVATAR ── */
+    .avatar-container {
+      position: relative;
+      width: 130px;
+      height: 130px;
+    }
+
+    .avatar-ring {
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: conic-gradient(var(--primary), var(--secondary), var(--primary));
+      animation: spin 4s linear infinite;
+      opacity: 0.6;
+    }
+
+    .avatar-ring.speaking {
+      animation: spin 0.8s linear infinite;
+      opacity: 1;
+    }
+
+    .avatar-ring.listening {
+      background: conic-gradient(var(--success), #00ff88, var(--success));
+      animation: spin 1.5s linear infinite;
+      opacity: 1;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .avatar-img {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--bg);
+      z-index: 1;
+      background: linear-gradient(135deg, #1a1a3a, #0d1f33);
+    }
+
+    .avatar-fallback {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0d2a3a, #1a0d3a);
+      border: 3px solid var(--bg);
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+
+    .michelle-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      color: var(--michelle);
+      text-shadow: 0 0 12px rgba(0, 229, 255, 0.6);
+      text-align: center;
+    }
+
+    .michelle-title {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* ── STATUS INDICATOR ── */
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      background: rgba(0, 255, 170, 0.1);
+      border: 1px solid rgba(0, 255, 170, 0.3);
+      color: var(--success);
+    }
+
+    .status-badge.speaking {
+      background: rgba(0, 229, 255, 0.15);
+      border-color: rgba(0, 229, 255, 0.5);
+      color: var(--michelle);
+    }
+
+    .status-badge.listening {
+      background: rgba(0, 255, 170, 0.15);
+      border-color: rgba(0, 255, 170, 0.5);
+      color: var(--success);
+    }
+
+    .status-badge.thinking {
+      background: rgba(255, 0, 255, 0.1);
+      border-color: rgba(255, 0, 255, 0.3);
+      color: var(--secondary);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.6);
+        opacity: 0.5;
+      }
+    }
+
+    /* ── WAVEFORM ── */
+    .waveform {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 36px;
+    }
+
+    .wave-bar {
+      width: 4px;
+      background: linear-gradient(to top, var(--michelle), var(--secondary));
+      border-radius: 2px;
+      height: 6px;
+      transition: height 0.1s ease;
+    }
+
+    .waveform.active .wave-bar {
+      animation: wave 0.8s ease-in-out infinite;
+    }
+
+    .wave-bar:nth-child(1) {
+      animation-delay: 0.0s;
+    }
+
+    .wave-bar:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    .wave-bar:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    .wave-bar:nth-child(4) {
+      animation-delay: 0.3s;
+    }
+
+    .wave-bar:nth-child(5) {
+      animation-delay: 0.2s;
+    }
+
+    .wave-bar:nth-child(6) {
+      animation-delay: 0.1s;
+    }
+
+    .wave-bar:nth-child(7) {
+      animation-delay: 0.0s;
+    }
+
+    @keyframes wave {
+
+      0%,
+      100% {
+        height: 6px;
+      }
+
+      50% {
+        height: 28px;
+      }
+    }
+
+    /* ── HELP TOPICS ── */
+    .help-topics {
+      width: 100%;
+    }
+
+    .help-topics h4 {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+
+    .topic-chip {
+      display: block;
+      width: 100%;
+      margin-bottom: 6px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: rgba(0, 255, 255, 0.06);
+      border: 1px solid rgba(0, 255, 255, 0.15);
+      color: var(--text);
+      font-size: 0.82rem;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .topic-chip:hover {
+      background: rgba(0, 255, 255, 0.15);
+      border-color: rgba(0, 255, 255, 0.4);
+      transform: translateX(4px);
+    }
+
+    .topic-chip .chip-icon {
+      margin-right: 6px;
+    }
+
+    /* ── VOICE SETTINGS ── */
+    .voice-settings {
+      width: 100%;
+    }
+
+    .voice-settings h4 {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+
+    .voice-select {
+      width: 100%;
+      padding: 8px 10px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.8rem;
+      font-family: 'Exo 2', sans-serif;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .voice-select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .speed-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .speed-slider {
+      flex: 1;
+      accent-color: var(--primary);
+      height: 4px;
+      cursor: pointer;
+    }
+
+    /* API key is server-side via Netlify function */
+
+    /* ── CHAT PANEL ── */
+    .chat-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .messages-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      scroll-behavior: smooth;
+    }
+
+    .messages-area::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .messages-area::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .messages-area::-webkit-scrollbar-thumb {
+      background: rgba(0, 255, 255, 0.2);
+      border-radius: 2px;
+    }
+
+    /* ── MESSAGES ── */
+    .message {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 20px;
+      animation: fadeSlide 0.35s ease;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message.user {
+      flex-direction: row-reverse;
+    }
+
+    .msg-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      border: 2px solid rgba(0, 255, 255, 0.3);
+    }
+
+    .msg-avatar.michelle-av {
+      background: linear-gradient(135deg, #0d2a3a, #1a0d3a);
+    }
+
+    .msg-avatar.user-av {
+      background: linear-gradient(135deg, #1a0d3a, #3a0d2a);
+      border-color: rgba(255, 0, 255, 0.3);
+    }
+
+    .bubble {
+      max-width: 70%;
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      position: relative;
+    }
+
+    .message.michelle .bubble {
+      background: rgba(0, 229, 255, 0.08);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      border-top-left-radius: 4px;
+      color: #e8f8ff;
+    }
+
+    .message.user .bubble {
+      background: rgba(191, 0, 255, 0.1);
+      border: 1px solid rgba(191, 0, 255, 0.25);
+      border-top-right-radius: 4px;
+      color: #f0e8ff;
+    }
+
+    .bubble .timestamp {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 6px;
+      display: block;
+    }
+
+    /* ── TYPING INDICATOR ── */
+    .typing-indicator {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .typing-bubble {
+      background: rgba(0, 229, 255, 0.06);
+      border: 1px solid rgba(0, 229, 255, 0.15);
+      border-radius: 18px;
+      border-top-left-radius: 4px;
+      padding: 14px 18px;
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--michelle);
+      border-radius: 50%;
+      animation: typing 1.2s ease-in-out infinite;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typing {
+
+      0%,
+      60%,
+      100% {
+        transform: translateY(0);
+        opacity: 0.4;
+      }
+
+      30% {
+        transform: translateY(-8px);
+        opacity: 1;
+      }
+    }
+
+    /* ── INPUT AREA ── */
+    .input-area {
+      padding: 16px 24px;
+      background: rgba(0, 0, 0, 0.3);
+      border-top: 1px solid rgba(0, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    .message-input {
+      flex: 1;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1.5px solid rgba(0, 255, 255, 0.25);
+      border-radius: 26px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: 'Exo 2', sans-serif;
+      resize: none;
+      max-height: 100px;
+      line-height: 1.5;
+      transition: border-color 0.2s;
+    }
+
+    .message-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .message-input::placeholder {
+      color: var(--muted);
+    }
+
+    .icon-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .mic-btn {
+      background: rgba(0, 255, 170, 0.1);
+      border: 1.5px solid rgba(0, 255, 170, 0.4);
+      color: var(--success);
+    }
+
+    .mic-btn:hover {
+      background: rgba(0, 255, 170, 0.2);
+      transform: scale(1.08);
+    }
+
+    .mic-btn.active {
+      background: rgba(0, 255, 170, 0.25);
+      border-color: var(--success);
+      animation: micPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes micPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 170, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 0 0 10px rgba(0, 255, 170, 0);
+      }
+    }
+
+    .send-btn {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #000;
+      border: none;
+    }
+
+    .send-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .stop-btn {
+      background: rgba(255, 77, 109, 0.15);
+      border: 1.5px solid rgba(255, 77, 109, 0.4);
+      color: var(--danger);
+    }
+
+    .stop-btn:hover {
+      background: rgba(255, 77, 109, 0.25);
+      transform: scale(1.08);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      .sidebar {
+        display: none;
+      }
+
+      .chat-layout {
+        height: calc(100vh - 50px);
+      }
+
+      .bubble {
+        max-width: 88%;
+      }
+    }
+
+    /* ── SCROLL TO TOP WELCOME ── */
+    .welcome-msg {
+      text-align: center;
+      margin-bottom: 32px;
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.06), rgba(255, 0, 255, 0.04));
+      border-radius: 16px;
+      border: 1px solid rgba(0, 229, 255, 0.12);
+    }
+
+    .welcome-msg h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--michelle);
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .welcome-msg p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <a href="index.html" class="back-btn">← Back to Hub</a>
+    <span class="site-title">Skid Row Joe's Hope Hub</span>
+  </header>
+
+  <div class="chat-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <!-- Avatar -->
+      <div class="avatar-container">
+        <div class="avatar-ring" id="avatarRing"></div>
+        <img src="./assets/images/michelle.png" alt="Michelle, SRJ AI Assistant" class="avatar-img" id="michelleAvatar"
+          onerror="this.style.display='none'; document.getElementById('avatarFallback').style.display='flex';" />
+        <div class="avatar-fallback" id="avatarFallback" style="display:none;">🤝</div>
+      </div>
+
+      <div class="michelle-name">Michelle</div>
+      <div class="michelle-title">AI Resource Assistant<br />Skid Row Joe's Hope Hub</div>
+
+      <!-- Status -->
+      <div class="status-badge" id="statusBadge">
+        <div class="status-dot"></div>
+        <span id="statusText">Ready to help</span>
+      </div>
+
+      <!-- Waveform -->
+      <div class="waveform" id="waveform">
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+      </div>
+
+      <!-- Quick Topics -->
+      <div class="help-topics">
+        <h4>Quick Topics</h4>
+        <button class="topic-chip"
+          onclick="quickAsk('I need to find a place to sleep tonight. Can you help me find emergency shelter?')"><span
+            class="chip-icon">🏠</span> Emergency Shelter</button>
+        <button class="topic-chip"
+          onclick="quickAsk('I need food. Where can I find a food bank or free meal near me?')"><span
+            class="chip-icon">🍽️</span> Food & Meals</button>
+        <button class="topic-chip"
+          onclick="quickAsk('I need help with addiction and recovery. What programs are available?')"><span
+            class="chip-icon">💊</span> Recovery Programs</button>
+        <button class="topic-chip"
+          onclick="quickAsk('I need mental health support. I\'m struggling and don\'t know where to turn.')"><span
+            class="chip-icon">🧠</span> Mental Health</button>
+        <button class="topic-chip"
+          onclick="quickAsk('I just got out of prison and need help getting back on my feet. What reentry resources are available?')"><span
+            class="chip-icon">🔓</span> Reentry Support</button>
+        <button class="topic-chip"
+          onclick="quickAsk('I need legal help but can\'t afford a lawyer. What free legal aid is available?')"><span
+            class="chip-icon">⚖️</span> Free Legal Aid</button>
+        <button class="topic-chip"
+          onclick="quickAsk('I need a job. Can you help me find work or job training programs?')"><span
+            class="chip-icon">💼</span> Jobs & Training</button>
+        <button class="topic-chip"
+          onclick="quickAsk('I need to see a doctor but have no insurance. Can you help?')"><span
+            class="chip-icon">🏥</span> Healthcare</button>
+        <button class="topic-chip" onclick="quickAsk('There is someone in crisis near me. What should I do?')"><span
+            class="chip-icon">🚨</span> Someone in Crisis</button>
+      </div>
+
+      <!-- Voice Settings -->
+      <div class="voice-settings">
+        <h4>Michelle's Voice</h4>
+        <select class="voice-select" id="voiceSelect" onchange="updateVoice()">
+          <option value="">Loading voices...</option>
+        </select>
+        <div class="speed-row">
+          <span>Speed</span>
+        </div>
+      </div>
+
+      <!-- API Key: Set GEMINI_API_KEY in Netlify env vars, not here -->
+    </aside>
+
+    <!-- CHAT PANEL -->
+    <main class="chat-panel">
+      <div class="messages-area" id="messagesArea">
+        <div class="welcome-msg">
+          <h3>👋 Hi, I'm Michelle!</h3>
+          <p>I'm here to help you find resources, answer questions, and guide you through whatever you're facing right
+            now. You are not alone. <br /><br />You can <strong>type</strong> or tap the <strong>🎤 mic button</strong>
+            to talk to me.</p>
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="input-area">
+        <div class="input-row">
+          <button class="icon-btn mic-btn" id="micBtn" onclick="toggleMic()" title="Talk to Michelle">🎤</button>
+          <textarea class="message-input" id="messageInput"
+            placeholder="Type here or use the mic to talk to Michelle..." rows="1" onkeydown="handleKey(event)"
+            oninput="autoResize(this)"></textarea>
+          <button class="icon-btn stop-btn" id="stopBtn" onclick="stopSpeaking()" title="Stop speaking"
+            style="display:none;">⏹️</button>
+          <button class="icon-btn send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+    // ─────────────────────────────────────────────
+    //  CONFIG & STATE
+    // ─────────────────────────────────────────────
+    const API_ENDPOINT = '/.netlify/functions/michelle-chat';
+    let conversationHistory = [];
+    let selectedVoice = null;
+    let speechRate = 0.92;
+    let isSpeaking = false;
+    let isListening = false;
+    let recognition = null;
+    let currentUtterance = null;
+
+    const MICHELLE_SYSTEM_PROMPT = `You are Michelle, a compassionate, warm, and knowledgeable AI resource assistant for Skid Row Joe's Hope Hub — a community-driven social services platform at skidrowjoe.com.
+
+YOUR PERSONALITY:
+- Warm, deeply empathetic, non-judgmental, and patient
+- You speak plainly and clearly — avoid jargon or complicated language
+- You are trauma-informed: you never shame or judge anyone's situation
+- You treat everyone with dignity regardless of their circumstances
+- You are encouraging and affirming — people often feel hopeless when they reach you
+- You remember what people share in the conversation and build on it
+- You are calm and steady — if someone is in crisis, you are their anchor
+
+YOUR ROLE:
+You help people navigate resources and services, including:
+
+🏠 HOUSING & SHELTER:
+- Emergency shelters (same-night options), transitional housing, permanent supportive housing
+- How to get on housing waiting lists, Section 8 / HUD vouchers
+- Safe Parking programs, tiny home villages, bridge housing
+- How to document homelessness for housing eligibility
+- For LA/Skid Row area: Downtown Women's Center, Union Rescue Mission, LA Mission, Midnight Mission, Volunteers of America, PATH, Step Up on Second
+
+🍽️ FOOD:
+- Food banks, pantries, soup kitchens, free meal programs
+- SNAP/EBT enrollment help, CalFresh (California food assistance)
+- WIC for mothers and children
+- Refer to local area food resources based on zip code when given
+
+💊 RECOVERY & ADDICTION:
+- Detox programs, residential treatment, outpatient and sober living
+- 12-step programs (AA, NA, CA), SMART Recovery, faith-based recovery
+- Medication-assisted treatment (MAT), suboxone, methadone clinics
+- Recovery housing / Oxford Houses
+- Harm reduction resources
+
+🧠 MENTAL HEALTH:
+- Community mental health centers, crisis lines, therapy referrals
+- LA County DMH: (800) 854-7771
+- National Crisis Line: 988 (call or text)
+- Crisis Text Line: Text HOME to 741741
+- Veterans crisis line: 988 then press 1
+- LGBTQ+ specific mental health support
+
+🔓 REENTRY (coming home from incarceration):
+- Getting ID / birth certificate / Social Security card
+- Expungement and record clearing
+- Ban the Box employment resources
+- Reentry housing programs
+- Legal aid for those with records (Clean Slate clinics)
+- Connecting back to family
+
+⚖️ LEGAL AID:
+- Free and low-cost legal services
+- Public Defender resources
+- Tenant rights / eviction defense
+- Immigration legal aid
+- Civil rights violations
+- LA County Law Library, Bet Tzedek, LAFLA, ACLU
+
+💼 JOBS & TRAINING:
+- America's Job Centers, WorkSource Centers
+- Job training programs for people with barriers
+- Staffing agencies that work with those with records
+- Social enterprises that hire people from Skid Row
+- Transitional jobs programs
+- Vocational rehab for those with disabilities
+
+🏥 HEALTHCARE:
+- Free clinics, community health centers (FQHCs)
+- Medi-Cal / Medicaid enrollment
+- Dental and vision resources
+- HIV/AIDS services, sexual health
+- Women's health, prenatal care
+- Telehealth options when transportation is a barrier
+
+🚨 EMERGENCY / CRISIS:
+- 911 for immediate danger
+- 988 Suicide & Crisis Lifeline
+- Domestic violence: National DV Hotline 1-800-799-7233
+- Sexual assault: RAINN 1-800-656-4673
+- 24/7 Crisis Hotline: (800) 555-HOPE
+
+THE SRJ SITE HAS THESE SECTIONS you can direct people to:
+- Resource Locator (find services by zip code)
+- Emergency Assistance Dashboard
+- Job Board
+- Housing Navigator
+- Telehealth Services
+- Peer Support Forum
+- Education Center
+- Legal Aid Directory
+- Recovery Tracker
+- Reentry Programs
+- Volunteer Opportunities
+- Alternative Support Groups
+- Provider Registration (for service providers)
+
+CONVERSATION GUIDELINES:
+1. Always start by acknowledging the person's situation with warmth before diving into resources
+2. Ask clarifying questions if you need location or more context (e.g., "What city or zip code are you in?")
+3. Give 2-3 specific, actionable steps — not an overwhelming list
+4. Always end your response with an open door: ask if they need more help or have other questions
+5. If someone is in immediate danger, lead with crisis resources (988, 911, hotlines)
+6. Keep responses conversational and readable — use line breaks, not walls of text
+7. Never make up phone numbers or addresses — say "I can help you search for specific providers in your area if you share your zip code"
+8. You can speak to people who are currently unhoused, in recovery, recently released from jail/prison, struggling with mental health, or supporting a loved one in any of these situations`;
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        addMichelleMessage("Hi there! I'm Michelle, and I'm so glad you're here. 💙 Whatever you're going through right now, you've come to the right place. I can help you find housing, food, healthcare, recovery support, legal aid, jobs — or just talk through what's going on. What can I help you with today?");
+      }, 600);
+    });
+
+    // ─────────────────────────────────────────────
+    //  VOICES
+    // ─────────────────────────────────────────────
+    function loadVoices() {
+      const voices = window.speechSynthesis.getVoices();
+      if (!voices.length) return;
+
+      const select = document.getElementById('voiceSelect');
+      select.innerHTML = '';
+
+      // Priority order of preferred voices
+      const preferred = [
+        'Microsoft Aria Online (Natural)', 'Microsoft Jenny Online (Natural)',
+        'Microsoft Ava Online (Natural)', 'Microsoft Emma Online (Natural)',
+        'Google UK English Female', 'Google US English Female',
+        'Samantha', 'Karen', 'Moira', 'Tessa',
+        'Microsoft Zira Desktop', 'Microsoft Hazel Desktop',
+        'Google US English', 'Alex'
+      ];
+
+      const femaleVoices = voices.filter(v =>
+        /female|woman|girl|she|her|aria|jenny|ava|emma|samantha|karen|moira|tessa|zira|hazel|victoria|susan|fiona|karen|veena|nicky/i.test(v.name)
+        || v.name.includes('en-GB') || v.name.includes('en-AU')
+      );
+
+      const allVoices = [...new Set([...femaleVoices, ...voices.filter(v => v.lang.startsWith('en'))])];
+
+      let bestIndex = 0;
+      allVoices.forEach((voice, i) => {
+        const opt = document.createElement('option');
+        opt.value = voice.name;
+        opt.textContent = voice.name + (voice.localService ? '' : ' ✨');
+        select.appendChild(opt);
+
+        const rank = preferred.findIndex(p => voice.name.includes(p) || p.includes(voice.name));
+        if (rank !== -1 && rank < (preferred.findIndex(p => allVoices[bestIndex]?.name?.includes(p)) ?? 999)) {
+          bestIndex = i;
+        }
+      });
+
+      if (allVoices.length) {
+        select.selectedIndex = bestIndex;
+        selectedVoice = allVoices[bestIndex];
+      }
+    }
+
+    window.speechSynthesis.addEventListener('voiceschanged', loadVoices);
+    loadVoices();
+
+    function updateVoice() {
+      const name = document.getElementById('voiceSelect').value;
+      selectedVoice = window.speechSynthesis.getVoices().find(v => v.name === name) || null;
+    }
+
+    function updateSpeed(val) {
+      speechRate = parseFloat(val);
+      document.getElementById('speedLabel').textContent = val + 'x';
+    }
+
+    // ─────────────────────────────────────────────
+    //  SPEECH SYNTHESIS (MICHELLE SPEAKS)
+    // ─────────────────────────────────────────────
+    function speak(text) {
+      window.speechSynthesis.cancel();
+      const clean = text.replace(/[*_`#>\[\]]/g, '').replace(/\n+/g, '. ').replace(/\s+/g, ' ').trim();
+      const chunks = splitIntoChunks(clean, 200);
+
+      let i = 0;
+      function speakChunk() {
+        if (i >= chunks.length) {
+          setStatus('ready');
+          isSpeaking = false;
+          document.getElementById('stopBtn').style.display = 'none';
+          return;
+        }
+        const utt = new SpeechSynthesisUtterance(chunks[i++]);
+        utt.voice = selectedVoice;
+        utt.rate = speechRate;
+        utt.pitch = 1.05;
+        utt.volume = 1;
+        currentUtterance = utt;
+        utt.onend = speakChunk;
+        window.speechSynthesis.speak(utt);
+      }
+
+      isSpeaking = true;
+      setStatus('speaking');
+      document.getElementById('stopBtn').style.display = 'flex';
+      speakChunk();
+    }
+
+    function splitIntoChunks(text, maxLen) {
+      const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+      const chunks = [];
+      let current = '';
+      for (const s of sentences) {
+        if ((current + s).length > maxLen && current) {
+          chunks.push(current.trim());
+          current = s;
+        } else {
+          current += s;
+        }
+      }
+      if (current.trim()) chunks.push(current.trim());
+      return chunks;
+    }
+
+    function stopSpeaking() {
+      window.speechSynthesis.cancel();
+      isSpeaking = false;
+      setStatus('ready');
+      document.getElementById('stopBtn').style.display = 'none';
+    }
+
+    // ─────────────────────────────────────────────
+    //  SPEECH RECOGNITION (USER TALKS)
+    // ─────────────────────────────────────────────
+    function toggleMic() {
+      if (isListening) {
+        stopListening();
+      } else {
+        startListening();
+      }
+    }
+
+    function startListening() {
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert('Voice input is not supported in this browser. Please use Chrome or Edge and try again.');
+        return;
+      }
+      stopSpeaking();
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SR();
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      recognition.onstart = () => {
+        isListening = true;
+        setStatus('listening');
+        document.getElementById('micBtn').classList.add('active');
+        document.getElementById('micBtn').textContent = '🔴';
+      };
+
+      recognition.onresult = (e) => {
+        let transcript = '';
+        for (const res of e.results) transcript += res[0].transcript;
+        document.getElementById('messageInput').value = transcript;
+        autoResize(document.getElementById('messageInput'));
+      };
+
+      recognition.onend = () => {
+        isListening = false;
+        document.getElementById('micBtn').classList.remove('active');
+        document.getElementById('micBtn').textContent = '🎤';
+        setStatus('ready');
+        const text = document.getElementById('messageInput').value.trim();
+        if (text) sendMessage();
+      };
+
+      recognition.onerror = (e) => {
+        console.warn('Recognition error:', e.error);
+        isListening = false;
+        document.getElementById('micBtn').classList.remove('active');
+        document.getElementById('micBtn').textContent = '🎤';
+        setStatus('ready');
+      };
+
+      recognition.start();
+    }
+
+    function stopListening() {
+      if (recognition) recognition.stop();
+    }
+
+    // ─────────────────────────────────────────────
+    //  MESSAGING
+    // ─────────────────────────────────────────────
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+    }
+
+    function quickAsk(text) {
+      document.getElementById('messageInput').value = text;
+      sendMessage();
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      input.style.height = 'auto';
+
+      addUserMessage(text);
+      conversationHistory.push({ role: 'user', parts: [{ text }] });
+
+      showTyping();
+      setStatus('thinking');
+      document.getElementById('sendBtn').disabled = true;
+
+      try {
+        const reply = await callGemini(text);
+        hideTyping();
+        addMichelleMessage(reply);
+        conversationHistory.push({ role: 'model', parts: [{ text: reply }] });
+        speak(reply);
+      } catch (err) {
+        hideTyping();
+        const errMsg = 'I\'m sorry, I\'m having a little trouble connecting right now. Please try again in a moment. If you\'re in immediate need, please call 988 or (800) 555-HOPE.';
+        addMichelleMessage(errMsg);
+        speak(errMsg);
+        console.error('Gemini error:', err);
+      } finally {
+        document.getElementById('sendBtn').disabled = false;
+        setStatus('ready');
+      }
+    }
+
+    async function callGemini(userText) {
+      const messages = [
+        { role: 'user', parts: [{ text: MICHELLE_SYSTEM_PROMPT + '\n\n[Conversation begins below. Stay in character as Michelle at all times.]' }] },
+        { role: 'model', parts: [{ text: "Understood! I'm Michelle, ready to help with warmth and care." }] },
+        ...conversationHistory
+      ];
+
+      const response = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages })
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error || 'Server error');
+      }
+
+      const data = await response.json();
+      return data.reply || "I'm here — can you say that again?";
+    }
+
+    // ─────────────────────────────────────────────
+    //  UI HELPERS
+    // ─────────────────────────────────────────────
+    function addMichelleMessage(text) {
+      const area = document.getElementById('messagesArea');
+      const div = document.createElement('div');
+      div.className = 'message michelle';
+      div.innerHTML = `
+    <div class="msg-avatar michelle-av">🤝</div>
+    <div class="bubble">
+      ${formatText(text)}
+      <span class="timestamp">${getTime()}</span>
+    </div>`;
+      area.appendChild(div);
+      scrollToBottom();
+    }
+
+    function addUserMessage(text) {
+      const area = document.getElementById('messagesArea');
+      const div = document.createElement('div');
+      div.className = 'message user';
+      div.innerHTML = `
+    <div class="bubble">
+      ${escapeHtml(text)}
+      <span class="timestamp">${getTime()}</span>
+    </div>
+    <div class="msg-avatar user-av">🙋</div>`;
+      area.appendChild(div);
+      scrollToBottom();
+    }
+
+    function showTyping() {
+      const area = document.getElementById('messagesArea');
+      const div = document.createElement('div');
+      div.className = 'typing-indicator';
+      div.id = 'typingIndicator';
+      div.innerHTML = `
+    <div class="msg-avatar michelle-av">🤝</div>
+    <div class="typing-bubble">
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    </div>`;
+      area.appendChild(div);
+      scrollToBottom();
+    }
+
+    function hideTyping() {
+      document.getElementById('typingIndicator')?.remove();
+    }
+
+    function scrollToBottom() {
+      const area = document.getElementById('messagesArea');
+      area.scrollTop = area.scrollHeight;
+    }
+
+    function formatText(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br/>');
+    }
+
+    function escapeHtml(t) {
+      return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br/>');
+    }
+
+    function getTime() {
+      return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // ─────────────────────────────────────────────
+    //  STATUS
+    // ─────────────────────────────────────────────
+    function setStatus(state) {
+      const badge = document.getElementById('statusBadge');
+      const text = document.getElementById('statusText');
+      const ring = document.getElementById('avatarRing');
+      const waveform = document.getElementById('waveform');
+
+      badge.className = 'status-badge';
+      ring.className = 'avatar-ring';
+      waveform.className = 'waveform';
+
+      const states = {
+        ready: { label: 'Ready to help', cls: '' },
+        speaking: { label: 'Michelle is speaking...', cls: 'speaking' },
+        listening: { label: 'Listening...', cls: 'listening' },
+        thinking: { label: 'Thinking...', cls: 'thinking' }
+      };
+
+      const s = states[state] || states.ready;
+      text.textContent = s.label;
+      if (s.cls) {
+        badge.classList.add(s.cls);
+        ring.classList.add(s.cls);
+      }
+      if (state === 'speaking') waveform.classList.add('active');
+    }
+  </script>
+</body>
+
+</html>

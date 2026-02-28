@@ -1,0 +1,19 @@
+.support-group {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.support-group:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 255, 255, 0.3);
+}
+
+#groupFinder {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    padding: 25px;
+    margin-top: 30px;
+}

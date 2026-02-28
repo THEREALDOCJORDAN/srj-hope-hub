@@ -1,0 +1,158 @@
+.tracker-container {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progress {
+    width: 0;
+    height: 20px;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    transition: width 0.5s ease-in-out;
+}
+
+.milestone {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.milestone-icon {
+    width: 30px;
+    height: 30px;
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.milestone-completed .milestone-icon {
+    background-color: var(--primary-color);
+}
+
+#moodTracker,
+#journalEntry {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: 2px solid var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+}
+
+#journalEntry {
+    height: 100px;
+    resize: vertical;
+}
+
+.inspirational-quote {
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.inspirational-quote blockquote {
+    font-style: italic;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.profile-section,
+.ai-assistant-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 2rem;
+}
+
+#profileForm {
+    display: grid;
+    gap: 1rem;
+}
+
+#profileForm label {
+    font-weight: 600;
+}
+
+#profileForm input,
+#profileForm select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+}
+
+.assistant-options {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.assistant-option {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.assistant-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+}
+
+.assistant-option img {
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.choose-assistant {
+    margin-top: 10px;
+}
+
+.gauge-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.gauge {
+    text-align: center;
+}
+
+.gauge svg {
+    transform: rotate(-90deg);
+}
+
+.gauge text {
+    transform: rotate(90deg);
+}
+
+@keyframes fillAnimation {
+    0% {
+        stroke-dashoffset: 377;
+    }
+}
+
+.gauge circle:nth-child(2) {
+    animation: fillAnimation 2s ease-out forwards;
+}

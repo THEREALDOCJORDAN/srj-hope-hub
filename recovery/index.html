@@ -1,0 +1,213 @@
+<title>Skid Row Joe's Hope Hub - Recovery Tracker</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/recovery.css">
+</head>
+
+<body>
+  <header>
+    <h1>Recovery Tracker</h1>
+    <p>Monitor Your Progress and Stay Motivated</p>
+  </header>
+
+  <div class="container">
+    <div class="gauge-container">
+      <div class="gauge">
+        <svg width="150" height="150" viewBox="0 0 150 150">
+          <circle cx="75" cy="75" r="60" fill="none" stroke="#333" stroke-width="15"></circle>
+          <circle cx="75" cy="75" r="60" fill="none" stroke="url(#gradient1)" stroke-width="15" stroke-dasharray="377"
+            stroke-dashoffset="94.25"></circle>
+          <text x="75" y="75" text-anchor="middle" dy=".3em" font-size="30" fill="#00ffff">75%</text>
+        </svg>
+        <h4>Goals</h4>
+        <p>Step 6 of 8</p>
+      </div>
+      <div class="gauge">
+        <svg width="150" height="150" viewBox="0 0 150 150">
+          <circle cx="75" cy="75" r="60" fill="none" stroke="#333" stroke-width="15"></circle>
+          <circle cx="75" cy="75" r="60" fill="none" stroke="url(#gradient2)" stroke-width="15" stroke-dasharray="377"
+            stroke-dashoffset="188.5"></circle>
+          <text x="75" y="75" text-anchor="middle" dy=".3em" font-size="30" fill="#00ffff">50%</text>
+        </svg>
+        <h4>Obtaining ID</h4>
+        <p>Step 4 of 8</p>
+      </div>
+      <div class="gauge">
+        <svg width="150" height="150" viewBox="0 0 150 150">
+          <circle cx="75" cy="75" r="60" fill="none" stroke="#333" stroke-width="15"></circle>
+          <circle cx="75" cy="75" r="60" fill="none" stroke="url(#gradient3)" stroke-width="15" stroke-dasharray="377"
+            stroke-dashoffset="282.75"></circle>
+          <text x="75" y="75" text-anchor="middle" dy=".3em" font-size="30" fill="#00ffff">25%</text>
+        </svg>
+        <h4>Housing</h4>
+        <p>Step 2 of 8</p>
+      </div>
+      <div class="gauge">
+        <svg width="150" height="150" viewBox="0 0 150 150">
+          <circle cx="75" cy="75" r="60" fill="none" stroke="#333" stroke-width="15"></circle>
+          <circle cx="75" cy="75" r="60" fill="none" stroke="url(#gradient4)" stroke-width="15" stroke-dasharray="377"
+            stroke-dashoffset="0"></circle>
+          <text x="75" y="75" text-anchor="middle" dy=".3em" font-size="30" fill="#00ffff">100%</text>
+        </svg>
+        <h4>Health Check</h4>
+        <p>Step 8 of 8</p>
+      </div>
+    </div>
+
+    <style>
+      .gauge-container {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+
+      .gauge {
+        text-align: center;
+      }
+
+      .gauge svg {
+        transform: rotate(-90deg);
+      }
+
+      .gauge text {
+        transform: rotate(90deg);
+      }
+
+      @keyframes fillAnimation {
+        0% {
+          stroke-dashoffset: 377;
+        }
+      }
+
+      .gauge circle:nth-child(2) {
+        animation: fillAnimation 2s ease-out forwards;
+      }
+
+      linearGradient {
+        --color-stop-1: #00ffff;
+        --color-stop-2: #ff00ff;
+      }
+    </style>
+
+    <svg width="0" height="0">
+      <defs>
+        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="var(--color-stop-1)"></stop>
+          <stop offset="100%" stop-color="var(--color-stop-2)"></stop>
+        </linearGradient>
+        <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="var(--color-stop-1)"></stop>
+          <stop offset="100%" stop-color="var(--color-stop-2)"></stop>
+        </linearGradient>
+        <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="var(--color-stop-1)"></stop>
+          <stop offset="100%" stop-color="var(--color-stop-2)"></stop>
+        </linearGradient>
+        <linearGradient id="gradient4" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="var(--color-stop-1)"></stop>
+          <stop offset="100%" stop-color="var(--color-stop-2)"></stop>
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <div class="tracker-container">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <button class="btn" onclick="downloadApp()">Download Recovery Tracker App</button>
+      </div>
+
+      <div class="inspirational-quote">
+        <h3>Daily Inspiration</h3>
+        <blockquote id="dailyQuote">Loading your daily dose of inspiration...</blockquote>
+      </div>
+
+      <div class="profile-section">
+        <h3>Build Your Profile and Set Goals to Begin Our Journey</h3>
+        <button class="btn" onclick="openProfileBuilder()">Build Profile</button>
+      </div>
+
+      <div class="ai-assistant-section">
+        <h3>Choose Your AI Assistant</h3>
+        <div class="assistant-options">
+          <div class="assistant-option">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=100&amp;h=100&amp;q=80"
+              alt="Male AI Assistant - Smiling man with short dark hair and blue eyes" width="100" height="100">
+            <h4>Mark</h4>
+            <p>Age: 35</p>
+            <p>Speciality: Motivational Speaking</p>
+            <button class="btn choose-assistant" data-assistant="mark">Choose Mark</button>
+          </div>
+          <div class="assistant-option">
+            <img
+              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=100&amp;h=100&amp;q=80"
+              alt="Female AI Assistant - Professional woman with long brown hair and warm smile" width="100"
+              height="100">
+            <h4>Sarah</h4>
+            <p>Age: 28</p>
+            <p>Speciality: Emotional Support</p>
+            <button class="btn choose-assistant" data-assistant="sarah">Choose Sarah</button>
+          </div>
+          <div class="assistant-option">
+            <img
+              src="https://images.unsplash.com/photo-1596075780750-81249df16d19?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=100&amp;h=100&amp;q=80"
+              alt="Non-binary AI Assistant - Person with short hair and androgynous features smiling at camera"
+              width="100" height="100">
+            <h4>Alex</h4>
+            <p>Age: 32</p>
+            <p>Speciality: Goal Setting</p>
+            <button class="btn choose-assistant" data-assistant="alex">Choose Alex</button>
+          </div>
+        </div>
+      </div>
+
+      <h2>Your Recovery Journey</h2>
+
+      <h3>Verbal Communication</h3>
+      <div style="display: flex; align-items: center; margin-bottom: 20px;">
+        <img src="https://www.skidrowhc.org/images/voice-interface.svg" alt="Stylized microphone icon with sound waves"
+          width="100" height="100" style="margin-right: 20px;">
+        <div>
+          <p>Use voice commands to interact with your recovery tracker. Speak naturally to log entries, set goals, or
+            get motivational messages.</p>
+          <button class="btn" id="activateVoice" onclick="toggleVoiceComm()">Activate Voice Communication</button>
+        </div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress" id="recoveryProgress"></div>
+      </div>
+      <div id="milestones"></div>
+
+      <h3>Daily Check-in</h3>
+      <select id="moodTracker">
+        <option value="">How are you feeling today?</option>
+        <option value="5">Great</option>
+        <option value="4">Good</option>
+        <option value="3">Okay</option>
+        <option value="2">Not so good</option>
+        <option value="1">Struggling</option>
+      </select>
+      <textarea id="journalEntry" placeholder="Write about your day, thoughts, or feelings..."></textarea>
+      <button class="btn" onclick="saveEntry()">Save Entry</button>
+
+      <h3>Evaluate Current Vibrational State</h3>
+      <p>This option will perform a series of preprogrammed evaluations based on your thoughts, feelings, and emotions.
+      </p>
+      <button class="btn" onclick="evaluateVibrationalState()">Start Evaluation</button>
+
+      <h3>Set a New Goal</h3>
+      <input type="text" id="newGoal" placeholder="Enter your new goal">
+      <button class="btn" onclick="addGoal()">Add Goal</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2023 Skid Row Joe's Hope Hub. All rights reserved.</p>
+    <p>24/7 Crisis Hotline: (800) 555-HOPE</p>
+    <a href="../index.html" class="btn">Back to Home</a>
+  </footer>
+
+  <script src="../assets/js/recovery.js" defer></script>
+</body>
+
+</html>
