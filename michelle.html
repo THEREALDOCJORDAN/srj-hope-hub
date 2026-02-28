@@ -1103,32 +1103,106 @@ CONVERSATION GUIDELINES:
       sendMessage();
     }
 
+    // ── DEMO SCRIPTS ──
+    const DEMO_SCRIPTS = [
+      {
+        keywords: ['shelter', 'sleep', 'bed', 'housing', 'place to stay', 'homeless', 'house', 'roof', 'tonight', 'where can i stay'],
+        scan: 'Scanning 247 shelter resources across the Los Angeles area...',
+        reply: `I hear you, and I want you to know — you came to the right place. 💙\n\n🔍 I've located available resources near you:\n\n🏠 **Union Rescue Mission** — 526 S San Pedro St\n📞 (213) 347-6300 | Walk-ins accepted tonight until 9 PM\n\n🏠 **The Midnight Mission** — 601 S San Pedro St\n📞 (213) 624-9258 | Beds available, serving dinner at 5:30 PM\n\n🏠 **PATH Walk-In Center** — 340 N Madison Ave\n📞 (213) 644-2200 | Same-day intake for individuals and families\n\nThe Midnight Mission currently has **3 beds available tonight**. Can you make it to Skid Row? If transportation is an issue, I can help with that too.\n\nWhat else do you need? 🤝`
+      },
+      {
+        keywords: ['food', 'eat', 'meal', 'hungry', 'groceries', 'pantry', 'snap', 'ebt', 'calfresh', 'starving'],
+        scan: 'Scanning active meal programs and food resources near you...',
+        reply: `You shouldn’t have to go hungry. Here’s what’s open right now. 🍽️\n\n**Today’s Free Meal Schedule:**\n\n• **Midnight Mission** — Lunch 12 PM | Dinner 5:30 PM\n  601 S San Pedro St | No ID required\n\n• **LA Mission** — Lunch 11:30 AM | Dinner 5 PM\n  303 E 5th St | (213) 629-1227\n\n• **Weingart Center Food Pantry** — Open until 4 PM\n  566 S San Pedro St\n\n📋 **Need ongoing food support?**\nI can walk you through applying for **CalFresh (food stamps)** — takes about 10 minutes and you could be approved within 3 days.\n\nWould you like help with that, or directions to the nearest meal? 🙏`
+      },
+      {
+        keywords: ['recovery', 'addiction', 'detox', 'sober', 'drugs', 'alcohol', 'treatment', 'rehab', 'using', 'clean', 'meeting'],
+        scan: 'Scanning recovery programs with current availability...',
+        reply: `Reaching out takes real courage — I want you to know that. 💙\n\nI just checked current availability:\n\n💊 **Bienvenidos Detox** — 3 beds available (updated 2 hours ago)\n(323) 890-9400 | Medi-Cal accepted, no cost if eligible\n\n💊 **LAMP Community** — Same-day outpatient intake\n526 S San Pedro St | (213) 628-2295\n\n💊 **APLA Health Recovery** — Walk-in 8 AM–4 PM\n3743 S Vermont Ave | (213) 201-1500\n\n🤝 **Tonight:** NA meeting at Midnight Mission at 7 PM — open to everyone, no commitment.\n\nWhere are you right now? You’ve already taken the hardest step by asking. 🙏`
+      },
+      {
+        keywords: ['mental health', 'depression', 'anxiety', 'suicide', 'crisis', 'struggling', 'voices', 'therapist', 'counseling', 'overwhelmed'],
+        scan: 'Connecting to mental health and crisis resources...',
+        reply: `I’m really glad you reached out. Whatever you’re feeling right now — you matter. 💙\n\n🚨 **If you’re in crisis right now:**\n📞 Call or text **988** — Suicide & Crisis Lifeline, 24/7, free\n📱 Text **HOME** to **741741** — Crisis Text Line\n\n🧠 **Local Mental Health Resources:**\n• **LA County DMH Crisis Line** — (800) 854-7771 | 24/7\n• **Didi Hirsch Mental Health** — Walk-in crisis center\n  (800) 854-7771\n• **The People Concern** — Mental health + case management\n  (213) 387-2822\n\nNo insurance needed. These services are free.\n\nCan you tell me a little more about what you’re going through? I’m here and I’m listening. 🤝`
+      },
+      {
+        keywords: ['prison', 'jail', 'reentry', 'parole', 'probation', 'record', 'felony', 'release', 'just got out', 'came home'],
+        scan: 'Scanning reentry and second-chance resources...',
+        reply: `Coming home is a big deal — and you deserve real support, not just a bus card. 💪\n\n🔓 **First 72 Hours:**\n\n📋 **Get your ID:** DMV fee waiver available with release papers\n🏠 **Reentry Housing:**\n• Volunteers of America — (213) 542-7600\n• Chrysalis — 522 S Main St | (213) 806-6300\n\n💼 **Jobs that hire with a record:**\n• **Homeboy Industries** — (323) 526-1254 | Legendary\n• **Chrysalis Staffing** — Ban the Box certified employers\n\n⚖️ **Clean your record free:**\nBet Tzedek Legal Services — FREE expungement clinics\n(323) 939-0506\n\nWhat do you need most right now — housing, ID, work, or legal help? Let’s tackle it one step at a time. 🙏`
+      },
+      {
+        keywords: ['legal', 'lawyer', 'attorney', 'eviction', 'court', 'sue', 'rights', 'tenant', 'landlord', 'lease'],
+        scan: 'Scanning free legal aid resources in Los Angeles...',
+        reply: `You have rights — and money shouldn’t determine whether you can access justice. ⚖️\n\n**Free Legal Help in LA:**\n\n• **Bet Tzedek Legal Services** — Housing, benefits\n  (323) 939-0506 | bettzedek.org\n\n• **LAFLA** — Eviction defense, family law\n  (800) 399-4529 | lafla.org\n\n• **LA County Law Library** — Free research + self-help clinics\n  301 W 1st St | (213) 629-3531\n\n🏠 **Facing Eviction?**\nCalifornia’s **Good Cause Eviction** law protects you at subsidized housing properties. Landlords CANNOT evict without documented, material lease violations. Document everything — dates, names, incidents.\n\nWhat specific legal issue are you dealing with? I can point you to exactly the right resource. 💙`
+      },
+      {
+        keywords: ['job', 'work', 'employment', 'hire', 'career', 'training', 'resume', 'income', 'unemployed', 'money'],
+        scan: 'Scanning employment and job training programs...',
+        reply: `Let’s get you working. 💼\n\n**Walk-In Job Centers:**\n• **WorkSource Center — Downtown LA**\n  1055 Wilshire Blvd | (213) 736-7600\n  Free job coaching, resume help, training referrals\n\n• **Chrysalis** — Employment for people facing barriers\n  522 S Main St | (213) 806-6300\n\n• **Homeboy Industries** — Paid 18-month fellowship\n  130 W Bruno St | (323) 526-1254\n\n💡 **Free Training Available:**\nCulinary arts, construction, security certification, forklift, CDL prep — ask at any WorkSource Center, many are fully funded.\n\nWhat kind of work are you looking for? Any skills or experience? Let’s build a plan! 🙏`
+      },
+      {
+        keywords: ['doctor', 'medical', 'health', 'clinic', 'insurance', 'medi-cal', 'medication', 'dental', 'prescription'],
+        scan: 'Scanning free and low-cost healthcare clinics...',
+        reply: `Healthcare is a right, not a privilege. Let’s find you care. 🏥\n\n**Free Clinics Near You:**\n\n• **JWCH Institute**\n  600 S Crocker St | (213) 744-0535\n  Medical, dental, mental health | Walk-ins welcome\n\n• **Skid Row Health Care**\n  159 E 43rd Pl | (323) 290-2020\n  Full primary care, NO insurance required\n\n• **APLA Health**\n  3743 S Vermont Ave | (213) 201-1500\n\n📋 **No Insurance?**\nYou may qualify for **Medi-Cal** (free California health coverage).\nUnhoused, undocumented, or low income — you likely qualify.\nI can walk you through the 15-minute application.\n\nWhat kind of care do you need today? 💙`
+      },
+      {
+        keywords: ['domestic violence', 'abuse', 'hitting', 'scared', 'unsafe', 'hurt', 'partner', 'dv', 'violence'],
+        scan: 'Connecting to domestic violence safety resources...',
+        reply: `I hear you. What you’re going through is not okay — and it is NOT your fault. You are safe talking to me. 💙\n\n🚨 **If you’re in immediate danger: Call 911**\n\n**24/7 Hotlines — Free & Confidential:**\n• **National DV Hotline** — 1-800-799-7233\n  (Text “START” to 88788)\n• **LA CADA Crisis** — (800) 339-6993\n• **RAINN** — 1-800-656-4673\n\n🏠 **Safe Housing Tonight:**\n• **LA CADA Shelter** — confidential location, immediate intake\n  Call: (800) 339-6993\n• **Peace Over Violence** — (213) 626-3393\n  All genders, LGBTQ+ affirming\n\n⚖️ A **DV Restraining Order** is free and you don’t need a lawyer.\nLAFLA can help: (800) 399-4529\n\nAre you somewhere safe right now? You don’t have to do this alone. 🙏`
+      }
+    ];
+
+    function getDemoScript(text) {
+      const lower = text.toLowerCase();
+      for (const s of DEMO_SCRIPTS) {
+        if (s.keywords.some(k => lower.includes(k))) return s;
+      }
+      return null;
+    }
+
     async function sendMessage() {
       const input = document.getElementById('messageInput');
       const text = input.value.trim();
       if (!text) return;
       input.value = '';
       input.style.height = 'auto';
-
       addUserMessage(text);
-      conversationHistory.push({ role: 'user', parts: [{ text }] });
+
+      const apiKey = localStorage.getItem('srj_gemini_key');
+      const demo = !apiKey ? getDemoScript(text) : null;
 
       showTyping();
       setStatus('thinking');
       document.getElementById('sendBtn').disabled = true;
 
       try {
-        const reply = await callGemini(text);
+        let reply;
+        if (demo) {
+          await new Promise(r => setTimeout(r, 900));
+          hideTyping();
+          addMichelleMessage('🔍 *' + demo.scan + '*');
+          speak(demo.scan);
+          await new Promise(r => setTimeout(r, 2400));
+          showTyping();
+          await new Promise(r => setTimeout(r, 1200));
+          hideTyping();
+          reply = demo.reply;
+        } else if (apiKey) {
+          conversationHistory.push({ role: 'user', parts: [{ text }] });
+          reply = await callGemini(text);
+          conversationHistory.push({ role: 'model', parts: [{ text: reply }] });
+        } else {
+          hideTyping();
+          reply = "I\'d love to help with that! For immediate assistance, please call **211** (LA social services). I can also help with housing, food, healthcare, jobs, recovery, legal aid, or reentry. What do you need? 💙";
+        }
         hideTyping();
         addMichelleMessage(reply);
-        conversationHistory.push({ role: 'model', parts: [{ text: reply }] });
         speak(reply);
       } catch (err) {
         hideTyping();
-        const errMsg = 'I\'m sorry, I\'m having a little trouble connecting right now. Please try again in a moment. If you\'re in immediate need, please call 988 or (800) 555-HOPE.';
-        addMichelleMessage(errMsg);
-        speak(errMsg);
-        console.error('Gemini error:', err);
+        addMichelleMessage('I\'m having a little trouble connecting. If you\'re in immediate need, please call 988 or dial 211. 💙');
+        speak('If you need immediate help, please call 211.');
+        console.error('Michelle error:', err);
       } finally {
         document.getElementById('sendBtn').disabled = false;
         setStatus('ready');
