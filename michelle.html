@@ -787,7 +787,7 @@
     // ─────────────────────────────────────────────
     //  CONFIG & STATE
     // ─────────────────────────────────────────────
-    const API_ENDPOINT = '/.netlify/functions/michelle-chat';
+    const GEMINI_API = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
     let conversationHistory = [];
     let selectedVoice = null;
     let speechRate = 0.92;
@@ -1136,25 +1136,60 @@ CONVERSATION GUIDELINES:
     }
 
     async function callGemini(userText) {
+      const apiKey = localStorage.getItem('srj_gemini_key');
+      if (!apiKey) {
+        showKeyModal();
+        throw new Error('No API key configured');
+      }
+
       const messages = [
         { role: 'user', parts: [{ text: MICHELLE_SYSTEM_PROMPT + '\n\n[Conversation begins below. Stay in character as Michelle at all times.]' }] },
         { role: 'model', parts: [{ text: "Understood! I'm Michelle, ready to help with warmth and care." }] },
         ...conversationHistory
       ];
 
-      const response = await fetch(API_ENDPOINT, {
+      const response = await fetch(`${GEMINI_API}?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages })
+        body: JSON.stringify({
+          contents: messages,
+          generationConfig: { temperature: 0.82, topP: 0.9, maxOutputTokens: 600 },
+          safetySettings: [
+            { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
+            { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
+            { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+            { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' }
+          ]
+        })
       });
 
       if (!response.ok) {
         const err = await response.json();
-        throw new Error(err.error || 'Server error');
+        throw new Error(err.error?.message || 'API error');
       }
 
       const data = await response.json();
-      return data.reply || "I'm here — can you say that again?";
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm here — can you say that again?";
+    }
+
+    // ─────────────────────────────────────────────
+    //  KEY SETUP MODAL
+    // ─────────────────────────────────────────────
+    function showKeyModal() {
+      document.getElementById('keyModal').style.display = 'flex';
+    }
+    function hideKeyModal() {
+      document.getElementById('keyModal').style.display = 'none';
+    }
+    function saveKey() {
+      const k = document.getElementById('keyModalInput').value.trim();
+      if (!k || !k.startsWith('AIza')) {
+        alert('Please enter a valid Gemini API key (starts with AIza...)');
+        return;
+      }
+      localStorage.setItem('srj_gemini_key', k);
+      hideKeyModal();
+      addMichelleMessage("I'm all set! What can I help you with today? 💙");
     }
 
     // ─────────────────────────────────────────────
@@ -1260,6 +1295,30 @@ CONVERSATION GUIDELINES:
       if (state === 'speaking') waveform.classList.add('active');
     }
   </script>
+  <!-- KEY SETUP MODAL (admin only) -->
+  <div id="keyModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;">
+    <div
+      style="background:#0d1a2a;border:1px solid rgba(0,255,255,0.3);border-radius:18px;padding:32px;max-width:400px;width:90%;text-align:center;">
+      <h3 style="font-family:'Orbitron',sans-serif;color:#00e5ff;margin-bottom:12px;">🔑 Michelle Setup</h3>
+      <p style="color:#a0aabf;font-size:0.85rem;margin-bottom:20px;">Enter your Gemini API key from <a
+          href="https://aistudio.google.com/apikey" target="_blank" style="color:#00ffff;">aistudio.google.com</a> to
+        activate Michelle.</p>
+      <input id="keyModalInput" type="password" placeholder="AIzaSy..."
+        style="width:100%;padding:12px;background:rgba(0,0,0,0.4);border:1px solid rgba(0,255,255,0.3);border-radius:10px;color:#fff;font-size:0.9rem;margin-bottom:14px;font-family:monospace;" />
+      <button onclick="saveKey()"
+        style="width:100%;padding:12px;background:linear-gradient(135deg,#00ffff,#ff00ff);border:none;border-radius:10px;color:#000;font-weight:700;font-size:0.95rem;cursor:pointer;margin-bottom:10px;">Activate
+        Michelle</button>
+      <button onclick="hideKeyModal()"
+        style="background:none;border:none;color:#a0aabf;font-size:0.8rem;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Admin floating key button -->
+  <button onclick="showKeyModal()" title="Admin: Set API Key"
+    style="position:fixed;bottom:90px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid rgba(0,255,255,0.2);color:#a0aabf;font-size:0.9rem;cursor:pointer;z-index:100;opacity:0.4;transition:opacity 0.2s;"
+    onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.4'">🔑</button>
+
 </body>
 
 </html>
