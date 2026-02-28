@@ -646,6 +646,130 @@
       }
     }
 
+    /* ── ACTION BUTTONS ── */
+    .action-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+
+    .crisis-btn {
+      position: relative;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, #ff1a1a, #cc0000);
+      border: none;
+      border-radius: 30px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      font-family: 'Exo 2', sans-serif;
+      cursor: pointer;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(255, 26, 26, 0.5);
+      animation: crisisPulse 2s ease-in-out infinite;
+      transition: transform 0.2s;
+      width: 100%;
+    }
+
+    .crisis-btn:hover {
+      transform: scale(1.03);
+    }
+
+    .crisis-pulse {
+      position: absolute;
+      inset: 0;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.15);
+      animation: ripple 2s ease-out infinite;
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0.8);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1.4);
+        opacity: 0;
+      }
+    }
+
+    @keyframes crisisPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(255, 26, 26, 0.5);
+      }
+
+      50% {
+        box-shadow: 0 0 40px rgba(255, 26, 26, 0.9), 0 0 60px rgba(255, 26, 26, 0.3);
+      }
+    }
+
+    .craving-btn {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, rgba(255, 140, 0, 0.2), rgba(255, 80, 0, 0.2));
+      border: 1.5px solid rgba(255, 140, 0, 0.5);
+      border-radius: 25px;
+      color: #ffa550;
+      font-weight: 600;
+      font-size: 0.88rem;
+      font-family: 'Exo 2', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex: 1;
+    }
+
+    .craving-btn:hover {
+      background: rgba(255, 140, 0, 0.3);
+      transform: scale(1.04);
+    }
+
+    .remember-btn {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(191, 0, 255, 0.1));
+      border: 1.5px solid rgba(0, 229, 255, 0.3);
+      border-radius: 25px;
+      color: var(--michelle);
+      font-weight: 600;
+      font-size: 0.88rem;
+      font-family: 'Exo 2', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex: 1;
+    }
+
+    .remember-btn:hover {
+      background: rgba(0, 229, 255, 0.15);
+      transform: scale(1.04);
+    }
+
+    /* ── 24/7 BADGE ── */
+    .badge-247 {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: rgba(0, 255, 170, 0.07);
+      border: 1px solid rgba(0, 255, 170, 0.2);
+      border-radius: 30px;
+      font-size: 0.82rem;
+      color: var(--success);
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
     /* ── SCROLL TO TOP WELCOME ── */
     .welcome-msg {
       text-align: center;
@@ -764,6 +888,22 @@
           <p>I'm here to help you find resources, answer questions, and guide you through whatever you're facing right
             now. You are not alone. <br /><br />You can <strong>type</strong> or tap the <strong>🎤 mic button</strong>
             to talk to me.</p>
+
+          <!-- ACTION BUTTONS -->
+          <div class="action-btns">
+            <button class="crisis-btn" onclick="triggerCrisis()" id="crisisBtn">
+              <span class="crisis-pulse"></span>
+              🚨 I'm Struggling Right Now
+            </button>
+            <button class="craving-btn" onclick="triggerCraving()">💪 I'm Feeling a Craving</button>
+            <button class="remember-btn" onclick="triggerReturning()">👋 Michelle Remembers Me</button>
+          </div>
+
+          <!-- 24/7 BADGE -->
+          <div class="badge-247">
+            <span class="live-dot"></span>
+            <strong>SRJ Hub Never Closes</strong> &nbsp;·&nbsp; 24 hours &nbsp;·&nbsp; 7 days &nbsp;·&nbsp; 365 days
+          </div>
         </div>
       </div>
 
@@ -1084,10 +1224,57 @@ CONVERSATION GUIDELINES:
     }
 
     // ─────────────────────────────────────────────
+    //  CRISIS / CRAVING / RETURNING TRIGGERS
+    // ─────────────────────────────────────────────
+    async function triggerCrisis() {
+      document.getElementById('crisisBtn').style.animation = 'none';
+      addUserMessage('🚨 I am struggling right now and I need help.');
+      showTyping();
+      setStatus('thinking');
+      document.getElementById('sendBtn').disabled = true;
+      await new Promise(r => setTimeout(r, 1000));
+      hideTyping();
+      const reply = `Hey. I'm right here with you. Right now. 💙\n\nYou did exactly the right thing by reaching out. Whatever you're going through — you don't have to face it alone, and you don't have to figure it out all at once.\n\n🚨 **If you're in immediate danger:**\nPlease call **911** right now.\n\n📞 **Crisis Support — Available RIGHT NOW:**\n• **988** — Call or text, free, 24/7. Someone answers.\n• **Text HOME to 741741** — Crisis Text Line\n• **LA County Crisis Line: (800) 854-7771** — 24 hours\n\nI'm not going anywhere. Can you tell me what's happening? Even just a few words. I'm listening. 🤝`;
+      addMichelleMessage(reply);
+      speak('Hey. I\'m right here with you. Right now. You did exactly the right thing by reaching out. Whatever you\'re going through, you don\'t have to face it alone. If you\'re in immediate danger, please call 911. For crisis support available right now, you can call or text 988, that\'s free and 24/7. I\'m not going anywhere. Can you tell me what\'s happening? I\'m listening.');
+      document.getElementById('sendBtn').disabled = false;
+      setStatus('ready');
+    }
+
+    async function triggerCraving() {
+      addUserMessage('💪 I\'m feeling a craving right now and I need support.');
+      showTyping();
+      setStatus('thinking');
+      document.getElementById('sendBtn').disabled = true;
+      await new Promise(r => setTimeout(r, 800));
+      hideTyping();
+      const reply = `I've got you. Right now, in this moment. 💪\n\nA craving is your brain asking for relief — and we're going to give it relief a different way.\n\n**Try this with me right now:**\n🫁 **4-7-8 Breath:** Breathe IN for 4 counts. HOLD for 7. Breathe OUT slowly for 8.\nDo it 3 times. I'll wait.\n\n...\n\n**You're doing great.**\n\nCravings peak at about 15-20 minutes and then drop. You just have to get through the next few minutes.\n\n🧠 **Distract for 5 minutes:**\n• Step outside if you can\n• Text someone in your support network\n• Do 10 jumping jacks — seriously, it works\n\n📞 **Need to talk to someone live right now?**\nNA Hotline: **(800) 662-4357** — 24/7, free, confidential\n\nHow many days are you at? Your streak matters. Every single one. 🌟`;
+      addMichelleMessage(reply);
+      speak('I\'ve got you. Right now, in this moment. A craving is your brain asking for relief, and we\'re going to give it relief a different way. Try this with me right now. The 4-7-8 breath. Breathe in for 4 counts. Hold for 7. Breathe out slowly for 8. Do it 3 times. Cravings peak at about 15 to 20 minutes and then drop. You just have to get through the next few minutes. How many days are you at? Your streak matters. Every single one.');
+      document.getElementById('sendBtn').disabled = false;
+      setStatus('ready');
+    }
+
+    async function triggerReturning() {
+      addUserMessage('Hi Michelle, it\'s me again.');
+      showTyping();
+      setStatus('thinking');
+      document.getElementById('sendBtn').disabled = true;
+      await new Promise(r => setTimeout(r, 1400));
+      hideTyping();
+      const reply = `Marcus! Welcome back. I've been thinking about you. 💙\n\n*[Checking your profile...]*\n\nLast time we talked, you were working on getting into **Chrysalis** for the job training program and waiting to hear back about your Medi-Cal application.\n\n📋 **A few things to follow up on:**\n• Your Medi-Cal application — it's been 8 days. You should be getting a determination soon. Want me to help you check the status?\n• The Chrysalis orientation is **every Tuesday at 9 AM** — that's coming up in 2 days. Do you have transportation covered?\n\nAnd how are you doing overall? Not just the paperwork stuff — YOU. How are you feeling? 🙏\n\n*[Profile last updated 8 days ago — 14-day sobriety streak recorded 🌟]*`;
+      addMichelleMessage(reply);
+      speak('Marcus! Welcome back. I\'ve been thinking about you. Last time we talked, you were working on getting into Chrysalis for job training and waiting on your Medi-Cal application. I have a few follow-up items for you. And how are you doing overall? Not just the paperwork — YOU. How are you feeling?');
+      document.getElementById('sendBtn').disabled = false;
+      setStatus('ready');
+    }
+
+    // ─────────────────────────────────────────────
     //  MESSAGING
     // ─────────────────────────────────────────────
     function handleKey(e) {
       if (e.key === 'Enter' && !e.shiftKey) {
+
         e.preventDefault();
         sendMessage();
       }
